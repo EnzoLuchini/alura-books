@@ -7,10 +7,6 @@ const Logoo = styled.div`
     font-size: 1.4rem;
 `
 
-const imagem = styled.img`
-    margin-right:10px;
-`
-
   function Logo(){
     return(
         <Logoo>

@@ -1,15 +1,16 @@
 import styled from "styled-components"
 import Input from "../Input"
-import { useState } from "react"
-import { livros } from "./dadosPesquisa"
+import { useEffect, useState } from "react"
+import { getLivros } from "../../servicos/livros"
+import { postFavoritos } from "../../servicos/Favoritos"
 
 const Containerpesquisa = styled.section`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background-image: linear-gradient(90deg, #002F52 35%, #326589 165%);
+    color: #FFF;
     text-align: center;
-    justify-content: center;
-    gap: 1.2rem;
+    padding: 85px 0;
+    height: 470px;
+    width: 100%;
 `
 
 
@@ -28,41 +29,67 @@ const Subtitulo = styled.h3`
 `
 
 const Resultado = styled.div`
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    gap: 1.2rem;
-    cursor: pointer;
-    font-size: 2rem;
-    color: #FFF;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-bottom: 20px;
+cursor: pointer;
+
+p {
+    width: 200px;
+}
+
+img {
+    width: 100px;
+}
+
+&:hover {
+    border: 1px solid white;
+}
 `
 
-function Pesquisa(){
+
+
+
+function Pesquisa() {
     const [livrosPesquisados, setLivrosPesquisados] = useState([])
+    const [livros, setLivros] = useState([])
 
-    return(
+    useEffect(() => {
+        fetchlivros()
+     }, [])
+
+    async function fetchlivros(){
+        const livrosDaAPI = await getLivros()
+        setLivros(livrosDaAPI) 
+     }
+
+     async function insertFavorito(id){
+        await postFavoritos(id)
+        alert(`Livro de ${id} inserido`)
+     }
+
+    return (
         <Containerpesquisa>
-        <Titulo> Já sabe por onde começar? </Titulo>
-        <Subtitulo> Encontre seu livro em nossa estante </Subtitulo>
-        <Input 
-            placeholder="Escreva sua proxima leitura"
-            onBlur={evento => {
-                const textoDigitado = evento.target.value
-                const resultadoPesquisa = livros.filter( livros => livros.nome.includes(textoDigitado) )
-                setLivrosPesquisados(resultadoPesquisa)
-            }}
-        />
-
-        {livrosPesquisados.map( livros => (
-            <Resultado>
-            <img src="livros.src"></img>
-            <p>{livros.nome}</p>
-            </Resultado>
-        ))}
-
+            <Titulo>Já sabe por onde começar?</Titulo>
+            <Subtitulo>Encontre seu livro em nossa estante.</Subtitulo>
+            <Input
+                placeholder="Escreva sua próxima leitura"
+                onBlur={evento => {
+                    const textoDigitado = evento.target.value
+                    const resultadoPesquisa = livros?.filter( livro => livro.nome.includes(textoDigitado))
+                    setLivrosPesquisados(resultadoPesquisa)
+                }}
+            />
+            { livrosPesquisados?.map( livro => (
+                <Resultado onClick={() => insertFavorito(livro.id)}>
+                    <img src={livro.src}/>
+                    <p>{livro.nome}</p>
+                </Resultado>
+            ) ) }
         </Containerpesquisa>
     )
 }
 
-export default Pesquisa 
+export default Pesquisa
+
