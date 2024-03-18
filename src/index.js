@@ -27,6 +27,13 @@ li {
   list-style: none;    
 }
 
+a:-webkit-any-link {
+  text-decoration: none;
+  text-decoration: none;
+  color: black;
+cursor: pointer;
+}
+
 `
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

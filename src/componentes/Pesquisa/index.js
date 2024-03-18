@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import Input from "../Input"
+import imageem from '../../imagens/Guia Front-end.svg'
 import { useEffect, useState } from "react"
 import { getLivros } from "../../servicos/livros"
 import { postFavoritos } from "../../servicos/Favoritos"
@@ -83,7 +84,7 @@ function Pesquisa() {
             />
             { livrosPesquisados?.map( livro => (
                 <Resultado onClick={() => insertFavorito(livro.id)}>
-                    <img src={livro.src}/>
+                    <img src={imageem}/>
                     <p>{livro.nome}</p>
                 </Resultado>
             ) ) }

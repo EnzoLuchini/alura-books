@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { getFavoritos } from '../servicos/Favoritos';
 import { deleteFavoritos } from '../servicos/Favoritos';
+import imageem from '../imagens/Guia Front-end.svg'
 
 const AppContainer = styled.div`
     width: 100vw;
@@ -75,6 +76,7 @@ function Favoritos() {
               
                 <Resultado onClick={ () => deletarFavorito(favorito.id)} >
               
+              <img src={imageem}/>
               <p>{favorito.nome}</p>
 
               </Resultado>  
